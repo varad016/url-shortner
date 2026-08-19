@@ -11,7 +11,7 @@ services:
       - app
 
   app:
-    build: ./app
+    image: varadchopade/url-shortner:latest
     environment:
       DB_HOST: db
       DB_PORT: 5432
