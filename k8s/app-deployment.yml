@@ -1,0 +1,42 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: urls-deploy
+  labels:
+    app: urls
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: urls
+  template:
+    metadata:
+      labels:
+        app: urls
+    spec:
+      containers:
+      - name: urls
+        image: varadchopade/url-shortner:latest
+        ports:
+        - containerPort: 5000
+        envFrom:
+        - configMapRef:
+            name: urls-config
+        env:
+        - name: DB_PASSWORD
+          valueFrom:
+            secretKeyRef:
+              name: urls-secret
+              key: DB_PASSWORD
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: urls-service
+spec:
+  selector:
+    app: urls
+  ports:
+    - protocol: TCP
+      port: 5000
+      targetPort: 5000
