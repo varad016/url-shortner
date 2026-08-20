@@ -17,6 +17,7 @@ spec:
       containers:
       - name: urls
         image: varadchopade/url-shortner:latest
+        imagePullPolicy: Always
         ports:
         - containerPort: 5000
         envFrom:
